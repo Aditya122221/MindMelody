@@ -1,5 +1,6 @@
 package com.example.mindmelody
 
+import android.content.ContentValues
 import android.content.Intent
 import com.example.mindmelody.databinding.ActivitySignupBinding
 import android.os.Bundle
@@ -12,10 +13,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.net.toUri
+import androidx.transition.Visibility
 
 class Signup : AppCompatActivity() {
 
         private lateinit var binding: ActivitySignupBinding
+        private var otpCode = "2563"
+        private var isSign = false
 
         override fun onCreate(savedInstanceState: Bundle?) {
                 super.onCreate(savedInstanceState)
@@ -35,7 +39,11 @@ class Signup : AppCompatActivity() {
 
         private fun setupClickListeners() {
                 binding.btnSignUp.setOnClickListener {
-                        handleSignUp()
+                        if(isSign) {
+                                handleSignUp()
+                        } else {
+                                handleOtp()
+                        }
                 }
 
                 binding.tvLoginBtn.setOnClickListener {
@@ -43,7 +51,7 @@ class Signup : AppCompatActivity() {
                 }
         }
 
-        private fun handleSignUp() {
+        private fun handleOtp() {
                 val name = binding.etName.text.toString().trim()
                 val email = binding.etEmail.text.toString().trim()
                 val password = binding.etPassword.text.toString().trim()
@@ -60,13 +68,45 @@ class Signup : AppCompatActivity() {
                         try {
                                 delay(2000)
                                 showLoading(false)
-                                showToast("Sign up successful! Welcome!")
-                                navigateToLogin()
+                                binding.tilOTP.visibility = View.VISIBLE
+                                binding.btnSignUp.text = "Verify OTP"
+                                isSign = true
                         } catch (e: Exception) {
                                 showLoading(false)
                                 showToast("Sign up failed. Please try again.")
                         }
                 }
+        }
+
+        private fun handleSignUp() {
+                if(binding.etOTP.text.toString().trim().equals(otpCode)) {
+                        val dbCon = DatabaseConnection(this)
+                        val db = dbCon.writableDatabase
+                        val userId = generateUserId()
+                        val values = ContentValues().apply{
+                                put("fullName", binding.etName.text.toString().trim())
+                                put("email", binding.etEmail.text.toString().trim())
+                                put("password", binding.etPassword.text.toString().trim())
+                                put("created_at", System.currentTimeMillis().toString())
+                        }
+
+                        val result = db.insert("Users", null, values)
+                        if (result != -1L) {
+                                Toast.makeText(this, "User registered!", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this, Login::class.java))
+                                finish()
+                        } else {
+                                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+                        }
+                } else {
+                        binding.tilOTP.error = "OTP is incorrect"
+                }
+        }
+
+        private fun generateUserId() : Int {
+                var userId = 0
+
+                return userId
         }
 
         private fun validateInputs(name: String, email: String, password: String): Boolean {

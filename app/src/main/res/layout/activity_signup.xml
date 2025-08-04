@@ -129,6 +129,37 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilOTP"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            android:visibility="gone"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/input_stroke_color"
+            app:hintEnabled="false"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/password_toggle_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilPassword">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etOTP"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Enter the OTP recieve on email"
+                android:inputType="textPassword"
+                android:padding="16dp"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <!-- Terms & Conditions Disclaimer -->
         <TextView
             android:id="@+id/tvDisclaimer"
@@ -160,7 +191,7 @@
             app:cornerRadius="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDisclaimer" />
+            app:layout_constraintTop_toBottomOf="@id/tilOTP" />
 
         <!-- Progress Bar (Initially Hidden) -->
         <ProgressBar
