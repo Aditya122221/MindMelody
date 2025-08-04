@@ -1,0 +1,120 @@
+package com.example.mindmelody
+
+import android.content.Intent
+import com.example.mindmelody.databinding.ActivitySignupBinding
+import android.os.Bundle
+import android.util.Patterns
+import android.view.View
+import android.widget.Toast
+import kotlinx.coroutines.*
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.net.toUri
+
+class Signup : AppCompatActivity() {
+
+        private lateinit var binding: ActivitySignupBinding
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+                super.onCreate(savedInstanceState)
+                enableEdgeToEdge()
+
+                binding = ActivitySignupBinding.inflate(layoutInflater)
+                setContentView(binding.root)
+
+                ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+                        val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                        v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+                        insets
+                }
+
+                setupClickListeners()
+        }
+
+        private fun setupClickListeners() {
+                binding.btnSignUp.setOnClickListener {
+                        handleSignUp()
+                }
+
+                binding.tvLoginBtn.setOnClickListener {
+                        navigateToLogin()
+                }
+        }
+
+        private fun handleSignUp() {
+                val name = binding.etName.text.toString().trim()
+                val email = binding.etEmail.text.toString().trim()
+                val password = binding.etPassword.text.toString().trim()
+
+                binding.tilName.error = null
+                binding.tilEmail.error = null
+                binding.tilPassword.error = null
+
+                if (!validateInputs(name,email, password)) return
+
+                showLoading(true)
+
+                CoroutineScope(Dispatchers.Main).launch {
+                        try {
+                                delay(2000)
+                                showLoading(false)
+                                showToast("Sign up successful! Welcome!")
+                                navigateToLogin()
+                        } catch (e: Exception) {
+                                showLoading(false)
+                                showToast("Sign up failed. Please try again.")
+                        }
+                }
+        }
+
+        private fun validateInputs(name: String, email: String, password: String): Boolean {
+                var isValid = true
+
+                if(name.isEmpty()) {
+                        binding.tilName.error = "Name is required"
+                        isValid = false
+                }
+
+                if (email.isEmpty()) {
+                        binding.tilEmail.error = "Email is required"
+                        isValid = false
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        binding.tilEmail.error = "Please enter a valid email address"
+                        isValid = false
+                }
+
+                if (password.isEmpty()) {
+                        binding.tilPassword.error = "Password is required"
+                        isValid = false
+                } else if (password.length < 6) {
+                        binding.tilPassword.error = "Password must be at least 6 characters"
+                        isValid = false
+                }
+
+                return isValid
+        }
+
+        private fun showLoading(show: Boolean) {
+                if (show) {
+                        binding.progressBar.visibility = View.VISIBLE
+                        binding.btnSignUp.text = ""
+                        binding.btnSignUp.isEnabled = false
+                } else {
+                        binding.progressBar.visibility = View.GONE
+                        binding.btnSignUp.text = "Sign Up"
+                        binding.btnSignUp.isEnabled = true
+                }
+        }
+
+        private fun navigateToLogin() {
+                val intent = Intent(this, Login::class.java)
+                startActivity(intent)
+                finish()
+        }
+
+        private fun showToast(message: String) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        }
+}

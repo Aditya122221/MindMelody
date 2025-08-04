@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="primary_dark">#2C3E50</color>
+    <color name="button_primary">#E74C3C</color>
+    <color name="voice_gradient_start">#667eea</color>
+    <color name="voice_gradient_center">#764ba2</color>
+    <color name="voice_gradient_end">#f093fb</color>
+    <color name="text_gradient_start">#4facfe</color>
+    <color name="text_gradient_center">#00f2fe</color>
+    <color name="text_gradient_end">#43e97b</color>
+    <color name="face_gradient_start">#fa709a</color>
+    <color name="face_gradient_center">#fee140</color>
+    <color name="face_gradient_end">#ffecd2</color>
+    <color name="spotify_gradient_start">#1db954</color>
+    <color name="spotify_gradient_center">#1ed760</color>
+    <color name="spotify_gradient_end">#64f58d</color>
+    <color name="spotify_green">#1db954</color>
+    <color name="accent_pink">#ff6b9d</color>
+    <color name="accent_purple">#a855f7</color>
+    <color name="accent_blue">#3b82f6</color>
+    <color name="white_overlay">#80FFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="primary_green">#23B574</color>
+    <color name="primary_green_dark">#1E9A63</color>
+    <color name="text_primary">#333333</color>
+    <color name="text_secondary">#666666</color>
+    <color name="text_hint">#999999</color>
+    <color name="input_stroke_color">#E0E0E0</color>
+    <color name="input_stroke_focused">#23B574</color>
+    <color name="password_toggle_color">#666666</color>
+    <color name="divider_color">#E0E0E0</color>
+    <color name="social_button_background">#F5F5F5</color>
+    <color name="social_button_border">#E0E0E0</color>
+</resources>
