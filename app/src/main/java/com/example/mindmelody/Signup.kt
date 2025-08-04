@@ -12,14 +12,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.net.toUri
-import androidx.transition.Visibility
+import com.google.firebase.auth.FirebaseAuth
 
 class Signup : AppCompatActivity() {
 
         private lateinit var binding: ActivitySignupBinding
-        private var otpCode = "2563"
-        private var isSign = false
+        private val dbConn = DatabaseConnection(this)
 
         override fun onCreate(savedInstanceState: Bundle?) {
                 super.onCreate(savedInstanceState)
@@ -39,11 +37,7 @@ class Signup : AppCompatActivity() {
 
         private fun setupClickListeners() {
                 binding.btnSignUp.setOnClickListener {
-                        if(isSign) {
-                                handleSignUp()
-                        } else {
-                                handleOtp()
-                        }
+                        handleSignUp()
                 }
 
                 binding.tvLoginBtn.setOnClickListener {
@@ -51,7 +45,7 @@ class Signup : AppCompatActivity() {
                 }
         }
 
-        private fun handleOtp() {
+        private fun handleSignUp() {
                 val name = binding.etName.text.toString().trim()
                 val email = binding.etEmail.text.toString().trim()
                 val password = binding.etPassword.text.toString().trim()
@@ -68,9 +62,34 @@ class Signup : AppCompatActivity() {
                         try {
                                 delay(2000)
                                 showLoading(false)
-                                binding.tilOTP.visibility = View.VISIBLE
-                                binding.btnSignUp.text = "Verify OTP"
-                                isSign = true
+                                FirebaseAuth.getInstance()
+                                        .createUserWithEmailAndPassword(email, password)
+                                        .addOnCompleteListener { task ->
+                                        if(task.isSuccessful) {
+                                                val user = FirebaseAuth.getInstance().currentUser
+                                                user?.sendEmailVerification()
+                                                        ?.addOnCompleteListener { verifyTask ->
+                                                        if(verifyTask.isSuccessful) {
+                                                                val userId = generateUserId()
+                                                                val db = dbConn.writableDatabase
+                                                                val values = ContentValues().apply{
+                                                                        put("userId", userId)
+                                                                        put("fullName", name)
+                                                                        put("email", email)
+                                                                        put("password", password)
+                                                                        put("created_at", System.currentTimeMillis().toString())
+                                                                }
+
+                                                                val result = db.insert("Users", null, values)
+                                                                showToast("Verification email sent. Please check your email")
+                                                        } else {
+                                                                showToast("Failed to send verification email: ${verifyTask.exception?.message}")
+                                                        }
+                                                }
+                                        } else {
+                                                showToast("Signup failed: ${task.exception?.message}")
+                                        }
+                                }
                         } catch (e: Exception) {
                                 showLoading(false)
                                 showToast("Sign up failed. Please try again.")
@@ -78,36 +97,25 @@ class Signup : AppCompatActivity() {
                 }
         }
 
-        private fun handleSignUp() {
-                if(binding.etOTP.text.toString().trim().equals(otpCode)) {
-                        val dbCon = DatabaseConnection(this)
-                        val db = dbCon.writableDatabase
-                        val userId = generateUserId()
-                        val values = ContentValues().apply{
-                                put("fullName", binding.etName.text.toString().trim())
-                                put("email", binding.etEmail.text.toString().trim())
-                                put("password", binding.etPassword.text.toString().trim())
-                                put("created_at", System.currentTimeMillis().toString())
-                        }
-
-                        val result = db.insert("Users", null, values)
-                        if (result != -1L) {
-                                Toast.makeText(this, "User registered!", Toast.LENGTH_SHORT).show()
-                                startActivity(Intent(this, Login::class.java))
-                                finish()
-                        } else {
-                                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
-                        }
-                } else {
-                        binding.tilOTP.error = "OTP is incorrect"
-                }
-        }
-
-        private fun generateUserId() : Int {
-                var userId = 0
-
+        private fun generateUserId(): Int {
+                var userId: Int
+                do {
+                        userId = (100000..999999).random()
+                } while (dbConn.isUserIdExists(userId))
                 return userId
         }
+
+        private fun passwordReset(email: String) {
+                FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                        .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                        Toast.makeText(this, "Check your email", Toast.LENGTH_SHORT).show()
+                                } else {
+                                        Toast.makeText(this, "Error: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                                }
+                        }
+        }
+
 
         private fun validateInputs(name: String, email: String, password: String): Boolean {
                 var isValid = true

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "685683136513",
+    "project_id": "mindmelody-8a364",
+    "storage_bucket": "mindmelody-8a364.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685683136513:android:d30bd4ad66eb427f334800",
+        "android_client_info": {
+          "package_name": "com.example.mindmelody"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-QGsAJ2joLqbwXZdrHjlbeT1I0V-zJ8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

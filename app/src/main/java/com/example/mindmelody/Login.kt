@@ -1,10 +1,8 @@
 package com.example.mindmelody
 
+import android.content.ContentValues
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
@@ -13,9 +11,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.auth.FirebaseAuth
 
 class Login : AppCompatActivity() {
         private lateinit var binding: ActivityLoginBinding
+        private val dbConn = DatabaseConnection(this)
         override fun onCreate(savedInstanceState: Bundle?) {
                 super.onCreate(savedInstanceState)
                 enableEdgeToEdge()
@@ -64,18 +64,35 @@ class Login : AppCompatActivity() {
                 // Show loading state
                 showLoading(true)
 
-                // Simulate network call with 2-second delay
-                Handler(Looper.getMainLooper()).postDelayed({
-                        showLoading(false)
+                val user = FirebaseAuth.getInstance().currentUser
+                val userFromDB = dbConn.getUserByEmail(email)
+                if(userFromDB != null) {
+                        if(user!!.isEmailVerified) {
+                                if(password == userFromDB.password) {
+                                        startActivity(Intent(this, HomePage::class.java))
+                                        finish()
+                                } else {
+                                        showToast("Password is incorrect")
+                                }
+                        } else if(System.currentTimeMillis() - userFromDB.created_at.toLong() >= 60*60*1000) {
+                                showToast("Email verification failed. Please sign up again")
+                                dbConn.deleteUserByEmail(email)
+                        } else {
+                                showToast("Email is not verified. Please verify it")
+                        }
+                } else {
+                        showToast("User does not exist")
+                }
 
-                        // Simulate successful login
-                        Toast.makeText(this, "Login successful! Welcome back.", Toast.LENGTH_SHORT).show()
-
-                        // Here you would typically navigate to the main activity
-                        startActivity(Intent(this, HomePage::class.java))
-                        finish()
-
-                }, 2000)
+//                // Simulate network call with 2-second delay
+//                Handler(Looper.getMainLooper()).postDelayed({
+//                        showLoading(false)
+//
+//                        // Here you would typically navigate to the main activity
+//                        startActivity(Intent(this, HomePage::class.java))
+//                        finish()
+//
+//                }, 2000)
         }
 
         private fun validateInputs(email: String, password: String): Boolean {
@@ -134,8 +151,8 @@ class Login : AppCompatActivity() {
                 startActivity(Intent(this, Signup::class.java))
         }
 
-        private fun showSocialLoginToast(provider: String) {
-                Toast.makeText(this, "Login with $provider - coming soon!", Toast.LENGTH_SHORT).show()
+        private fun showToast(msg: String) {
+                Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
         }
 
         override fun onDestroy() {
