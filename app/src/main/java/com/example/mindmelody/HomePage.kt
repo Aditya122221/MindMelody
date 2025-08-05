@@ -1,6 +1,8 @@
 package com.example.mindmelody
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -20,6 +22,10 @@ class HomePage : AppCompatActivity() {
                                 systemBars.bottom
                         )
                         insets
+                }
+
+                findViewById<Button>(R.id.profile).setOnClickListener {
+                        startActivity(Intent(this, ProfilePage::class.java))
                 }
         }
 }

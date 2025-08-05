@@ -33,4 +33,8 @@
     <color name="divider_color">#E0E0E0</color>
     <color name="social_button_background">#F5F5F5</color>
     <color name="social_button_border">#E0E0E0</color>
+    <color name="primary_color">#6200EE</color>
+    <color name="primary_text_color">#212121</color>
+    <color name="background_color">#FAFAFA</color>
+    <color name="error_color">#B00020</color>
 </resources>

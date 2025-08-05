@@ -1,6 +1,5 @@
 package com.example.mindmelody
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
@@ -66,33 +65,49 @@ class Login : AppCompatActivity() {
 
                 val user = FirebaseAuth.getInstance().currentUser
                 val userFromDB = dbConn.getUserByEmail(email)
-                if(userFromDB != null) {
-                        if(user!!.isEmailVerified) {
-                                if(password == userFromDB.password) {
-                                        startActivity(Intent(this, HomePage::class.java))
-                                        finish()
-                                } else {
-                                        showToast("Password is incorrect")
+
+                if (userFromDB != null) {
+                        if (user != null) {
+                                user.reload().addOnCompleteListener { reloadTask ->
+                                        if (reloadTask.isSuccessful) {
+                                                if (user.isEmailVerified) {
+                                                        if (password == userFromDB.password) {
+                                                                val sharedPref = getSharedPreferences("MindMelodyPref", MODE_PRIVATE)
+                                                                val editor = sharedPref.edit()
+                                                                editor.putBoolean("isLogin", true)
+                                                                editor.putString("email", email)
+                                                                editor.apply()
+                                                                showLoading(false)
+                                                                startActivity(Intent(this, HomePage::class.java))
+                                                                finish()
+                                                        } else {
+                                                                showToast("Password is incorrect")
+                                                                showLoading(false)
+                                                        }
+                                                } else if (System.currentTimeMillis() - userFromDB.created_at.toLong() >= 60 * 60 * 1000) {
+                                                        user.delete().addOnCompleteListener { deleteTask ->
+                                                                if(deleteTask.isSuccessful) showToast("Email verification failed. Please sign up again")
+                                                                else showToast("Email delete error")
+                                                        }
+                                                        dbConn.deleteUserByEmail(email)
+                                                        showLoading(false)
+                                                } else {
+                                                        showToast("Email is not verified. Please verify it")
+                                                        showLoading(false)
+                                                }
+                                        } else {
+                                                showToast("Failed to refresh user")
+                                                showLoading(false)
+                                        }
                                 }
-                        } else if(System.currentTimeMillis() - userFromDB.created_at.toLong() >= 60*60*1000) {
-                                showToast("Email verification failed. Please sign up again")
-                                dbConn.deleteUserByEmail(email)
                         } else {
-                                showToast("Email is not verified. Please verify it")
+                                showToast("User not logged in")
+                                showLoading(false)
                         }
                 } else {
                         showToast("User does not exist")
+                        showLoading(false)
                 }
-
-//                // Simulate network call with 2-second delay
-//                Handler(Looper.getMainLooper()).postDelayed({
-//                        showLoading(false)
-//
-//                        // Here you would typically navigate to the main activity
-//                        startActivity(Intent(this, HomePage::class.java))
-//                        finish()
-//
-//                }, 2000)
         }
 
         private fun validateInputs(email: String, password: String): Boolean {

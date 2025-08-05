@@ -76,6 +76,10 @@ class TutorialPage : AppCompatActivity() {
                         )
                         insets
                 }
+                val sharedPref = getSharedPreferences("MindMelodyPref", MODE_PRIVATE)
+                val editor = sharedPref.edit()
+                editor.putBoolean("tutorialShown", true)
+                editor.apply()
                 setupFullscreenMode()
                 initViews()
                 setupViewPager()

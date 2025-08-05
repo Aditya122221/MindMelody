@@ -62,33 +62,67 @@ class Signup : AppCompatActivity() {
                         try {
                                 delay(2000)
                                 showLoading(false)
-                                FirebaseAuth.getInstance()
-                                        .createUserWithEmailAndPassword(email, password)
-                                        .addOnCompleteListener { task ->
-                                        if(task.isSuccessful) {
-                                                val user = FirebaseAuth.getInstance().currentUser
-                                                user?.sendEmailVerification()
-                                                        ?.addOnCompleteListener { verifyTask ->
-                                                        if(verifyTask.isSuccessful) {
-                                                                val userId = generateUserId()
-                                                                val db = dbConn.writableDatabase
-                                                                val values = ContentValues().apply{
-                                                                        put("userId", userId)
-                                                                        put("fullName", name)
-                                                                        put("email", email)
-                                                                        put("password", password)
-                                                                        put("created_at", System.currentTimeMillis().toString())
-                                                                }
+                                if(dbConn.isUserEmailExists(email)) {
+                                        showLoading(false)
+                                        showToast("Email id already exists. Try logging.")
+                                } else {
+                                        FirebaseAuth.getInstance()
+                                                .createUserWithEmailAndPassword(email, password)
+                                                .addOnCompleteListener { task ->
+                                                        if (task.isSuccessful) {
+                                                                val user =
+                                                                        FirebaseAuth.getInstance().currentUser
+                                                                user?.sendEmailVerification()
+                                                                        ?.addOnCompleteListener { verifyTask ->
+                                                                                if (verifyTask.isSuccessful) {
+                                                                                        val userId =
+                                                                                                generateUserId()
+                                                                                        val db =
+                                                                                                dbConn.writableDatabase
+                                                                                        val values =
+                                                                                                ContentValues().apply {
+                                                                                                        put(
+                                                                                                                "userId",
+                                                                                                                userId
+                                                                                                        )
+                                                                                                        put(
+                                                                                                                "fullName",
+                                                                                                                name
+                                                                                                        )
+                                                                                                        put(
+                                                                                                                "email",
+                                                                                                                email
+                                                                                                        )
+                                                                                                        put(
+                                                                                                                "password",
+                                                                                                                password
+                                                                                                        )
+                                                                                                        put(
+                                                                                                                "created_at",
+                                                                                                                System.currentTimeMillis()
+                                                                                                                        .toString()
+                                                                                                        )
+                                                                                                }
 
-                                                                val result = db.insert("Users", null, values)
-                                                                showToast("Verification email sent. Please check your email")
+                                                                                        val result =
+                                                                                                db.insert(
+                                                                                                        "Users",
+                                                                                                        null,
+                                                                                                        values
+                                                                                                )
+                                                                                        showToast("Verification email sent. Please check your email")
+                                                                                        binding.etName.text!!.clear()
+                                                                                        binding.etEmail.text!!.clear()
+                                                                                        binding.etPassword.text!!.clear()
+                                                                                        showLoading(false)
+                                                                                } else {
+                                                                                        showToast("Failed to send verification email: ${verifyTask.exception?.message}")
+                                                                                }
+                                                                        }
                                                         } else {
-                                                                showToast("Failed to send verification email: ${verifyTask.exception?.message}")
+                                                                showToast("Signup failed: ${task.exception?.message}")
                                                         }
                                                 }
-                                        } else {
-                                                showToast("Signup failed: ${task.exception?.message}")
-                                        }
                                 }
                         } catch (e: Exception) {
                                 showLoading(false)

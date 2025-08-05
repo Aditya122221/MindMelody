@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MindMelody">
         <activity
+            android:name=".ProfilePage"
+            android:exported="false" />
+        <activity
             android:name=".Login"
             android:exported="false" />
         <activity

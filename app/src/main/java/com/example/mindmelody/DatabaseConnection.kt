@@ -35,7 +35,15 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
 
         fun isUserIdExists(userId: Int): Boolean {
                 val db = this.readableDatabase
-                val cursor = db.rawQuery("SELECT * FROM users WHERE id = ?", arrayOf(userId.toString()))
+                val cursor = db.rawQuery("SELECT * FROM users WHERE userId = ?", arrayOf(userId.toString()))
+                val exists = cursor.moveToFirst()
+                cursor.close()
+                return exists
+        }
+
+        fun isUserEmailExists(email: String): Boolean {
+                val db = this.readableDatabase
+                val cursor = db.rawQuery("SELECT * FROM users WHERE email = ?", arrayOf(email))
                 val exists = cursor.moveToFirst()
                 cursor.close()
                 return exists
