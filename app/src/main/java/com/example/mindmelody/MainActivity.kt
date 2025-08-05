@@ -1,9 +1,6 @@
 package com.example.mindmelody
 
-import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -24,25 +21,5 @@ class MainActivity : AppCompatActivity() {
                         )
                         insets
                 }
-
-                val sharedPreferences = getSharedPreferences("MindMelodyPref", MODE_PRIVATE)
-                val isTutorialShown = sharedPreferences.getBoolean("tutorialShown", false)
-                val isLogin = sharedPreferences.getBoolean("isLogin", false)
-
-                Handler(Looper.getMainLooper()).postDelayed({
-                        if(isTutorialShown && !isLogin) {
-                                val intent = Intent(this, Login::class.java)
-                                startActivity(intent)
-                                finish()
-                        } else if(isTutorialShown && isLogin) {
-                                val intent = Intent(this, HomePage::class.java)
-                                startActivity(intent)
-                                finish()
-                        } else {
-                                val intent = Intent(this, TutorialPage::class.java)
-                                startActivity(intent)
-                                finish()
-                        }
-                }, 3000)
         }
 }
