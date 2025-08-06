@@ -1,5 +1,6 @@
 package com.example.mindmelody
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mindmelody.databinding.FragmentProfileBinding
+import androidx.core.content.edit
 
 class ProfileFragment : Fragment() {
         private lateinit var binding: FragmentProfileBinding
@@ -18,7 +20,7 @@ class ProfileFragment : Fragment() {
                 savedInstanceState: Bundle?
         ): View? {
                 binding = FragmentProfileBinding.inflate(inflater, container, false)
-                sharedPref =requireActivity().getSharedPreferences("MindMelodyPrefs", 0)
+                sharedPref =requireContext().getSharedPreferences("MindMelodyPref", Context.MODE_PRIVATE)
                 return binding.root
         }
 
@@ -34,10 +36,10 @@ class ProfileFragment : Fragment() {
                 }
 
                 binding.btnLogout.setOnClickListener {
-                        val editor = sharedPref.edit()
-                        editor.putBoolean("isLogin", false)
-                        editor.putString("email", null)
-                        editor.apply()
+                        sharedPref.edit {
+                                putBoolean("isLogin", false)
+                                putString("email", null)
+                        }
                         val intent = Intent(activity, Login::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
