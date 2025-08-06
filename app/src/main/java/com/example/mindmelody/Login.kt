@@ -78,7 +78,7 @@ class Login : AppCompatActivity() {
                                                                 editor.putString("email", email)
                                                                 editor.apply()
                                                                 showLoading(false)
-                                                                startActivity(Intent(this, HomePage::class.java))
+                                                                startActivity(Intent(this, MainActivity::class.java))
                                                                 finish()
                                                         } else {
                                                                 showToast("Password is incorrect")

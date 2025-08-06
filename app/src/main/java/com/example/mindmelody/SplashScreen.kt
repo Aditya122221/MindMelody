@@ -35,7 +35,7 @@ class SplashScreen : AppCompatActivity() {
                                 startActivity(intent)
                                 finish()
                         } else if(isTutorialShown && isLogin) {
-                                val intent = Intent(this, HomePage::class.java)
+                                val intent = Intent(this, MainActivity::class.java)
                                 startActivity(intent)
                                 finish()
                         } else {
