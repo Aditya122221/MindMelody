@@ -7,6 +7,6 @@ import retrofit2.http.POST
 
 interface OpenAIApiService {
         @Headers("Content-Type: application/json")
-        @POST("chat/completions")
-        fun getChatResponse(@Body request: GPTRequest): Call<GPTResponse>
+        @POST("v1beta/models/gemini-pro:generateContent")
+        fun generateContent(@Body request: GPTRequest): Call<GPTResponse>
 }
