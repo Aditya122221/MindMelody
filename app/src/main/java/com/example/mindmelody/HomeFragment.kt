@@ -1,11 +1,15 @@
 package com.example.mindmelody
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager2.widget.ViewPager2
 import com.example.mindmelody.databinding.FragmentHomeBinding
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,21 +28,19 @@ class HomeFragment : Fragment() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
                 super.onViewCreated(view, savedInstanceState)
 
+                val tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
+                val viewPager = view.findViewById<ViewPager2>(R.id.viewPager)
 
+                val adapter = ViewPageAdapter(this)
+                viewPager.adapter = adapter
 
-                RetrofitClient.instance.searchTracks("chill")
-                        .enqueue(object : Callback<DeezerResponse> {
-                                override fun onResponse(
-                                        call: Call<DeezerResponse>,
-                                        response: Response<DeezerResponse>
-                                ) {
-                                        val tracks = response.body()?.data ?: emptyList()
-                                        // TODO: Show tracks in RecyclerView
-                                }
-
-                                override fun onFailure(call: Call<DeezerResponse>, t: Throwable) {
-                                        // Handle error
-                                }
-                        })
+                TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                        tab.text = when (position) {
+                                0 -> "Text"
+                                1 -> "Speech"
+                                2 -> "Image"
+                                else -> ""
+                        }
+                }.attach()
         }
 }

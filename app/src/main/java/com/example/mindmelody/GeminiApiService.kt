@@ -2,11 +2,13 @@ package com.example.mindmelody
 
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Query
 
-interface OpenAIApiService {
-        @Headers("Content-Type: application/json")
+interface GeminiApiService {
         @POST("v1beta/models/gemini-pro:generateContent")
-        fun generateContent(@Body request: GPTRequest): Call<GPTResponse>
+        fun generateContent(
+                @Query("key") apiKey: String,
+                @Body request: GeminiRequest
+        ): Call<GeminiResponse>
 }

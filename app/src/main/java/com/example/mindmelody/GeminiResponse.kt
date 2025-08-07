@@ -1,6 +1,6 @@
 package com.example.mindmelody
 
-data class GPTResponse(val candidates: List<GeminiCandidate>)
+data class GeminiResponse(val candidates: List<GeminiCandidate>)
 
 data class GeminiCandidate(
         val content: GeminiContentResult

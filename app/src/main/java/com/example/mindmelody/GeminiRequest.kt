@@ -1,6 +1,6 @@
 package com.example.mindmelody
 
-data class GPTRequest(val contents: List<GeminiContent>)
+data class GeminiRequest(val contents: List<GeminiContent>)
 
 data class GeminiContent(
         val parts: List<GeminiPart>,

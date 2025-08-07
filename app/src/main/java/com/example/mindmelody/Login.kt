@@ -101,7 +101,7 @@ class Login : AppCompatActivity() {
                                         }
                                 }
                         } else {
-                                showToast("User not logged in")
+                                showToast("User does not exists")
                                 showLoading(false)
                         }
                 } else {

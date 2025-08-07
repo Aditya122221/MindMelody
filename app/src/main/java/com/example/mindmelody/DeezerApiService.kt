@@ -6,5 +6,5 @@ import retrofit2.http.Query
 
 interface DeezerApiService {
         @GET("search")
-        fun searchTracks(@Query("q") mood: String): Call<DeezerResponse>
+        fun searchTracks(@Query("q") mood: String, @Query("index") index : Int = 0): Call<DeezerResponse>
 }
