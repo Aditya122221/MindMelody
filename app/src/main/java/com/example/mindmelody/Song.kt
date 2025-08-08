@@ -1,9 +1,9 @@
 package com.example.mindmelody
 
-class Song(
+data class Song(
+        val id: String,
         val title: String,
+        val thumbnail: String,
         val artist: String,
-        val audioUrl: String,
-        val duration: Int = 0, // in seconds
-        val albumArt: Album
+        val duration: Int = 0,
 )

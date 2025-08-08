@@ -1,6 +1,5 @@
 package com.example.mindmelody
 
-import android.util.Log
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -59,111 +58,48 @@ class TextFragment : Fragment(), SongAdapter.OnSongClickListener{
                                 showLoading(true)
                                 var keyword = "party song"
                                 val userPrompt = "Extract one mood-related keyword (like party, chill, gym, etc.) from this sentence: \"$sug\". Just give the keyword only."
-//                                val request = GeminiRequest(
-//                                        contents = listOf(
-//                                                GeminiContent(
-//                                                        parts = listOf(GeminiPart(userPrompt))
-//                                                )
-//                                        )
-//                                )
 
                                 lifecycleScope.launch {
                                         try {
                                                 val response = model.generateContent(userPrompt)
                                                 keyword = response.text.toString()
                                                 val cleanKeyword = keyword.replace("\"", "").trim()
-                                                RetrofitClient.instance.searchTracks(cleanKeyword, 25)
-                                                        .enqueue(object : Callback<DeezerResponse> {
-                                                                override fun onResponse(
-                                                                        call: Call<DeezerResponse>,
-                                                                        response: Response<DeezerResponse>
-                                                                ) {
-                                                                        showLoading(false)
-                                                                        if(response.isSuccessful && response.body()?.data != null) {
-                                                                                val data = response.body()!!.data
-                                                                                if (data.isEmpty()) {
-                                                                                        binding.showError.text = "No songs found for keyword: $keyword"
-                                                                                        return
-                                                                                }
-                                                                                binding.showError.text = keyword
-                                                                                val tracks = response.body()?.data?.map { track ->
-                                                                                        Song(
-                                                                                                title = track.title,
-                                                                                                artist = track.artist.name,
-                                                                                                audioUrl = track.preview,
-                                                                                                duration = 300,
-                                                                                                albumArt = track.album
-                                                                                        )
-                                                                                } ?: emptyList()
+                                                val call = RetrofitClient.youtubeService.searchVideos(
+                                                        query = "$cleanKeyword songs",
+                                                        apiKey = "AIzaSyCEs6dbHcRmLtvafwVkx7jD9_90RoqYgPY"
+                                                )
 
-                                                                                songs.clear()
-                                                                                songs.addAll(tracks)
-                                                                                songAdapter.notifyDataSetChanged()
-                                                                                showLoading(false)
-                                                                                updateEmptyState()
-                                                                        } else {
-                                                                                showLoading(false)
-                                                                                binding.showError.text = "GPT error: ${response.code()}"
+                                                call.enqueue(object : retrofit2.Callback<YouTubeResponse> {
+                                                        override fun onResponse(call: Call<YouTubeResponse>, response: retrofit2.Response<YouTubeResponse>) {
+                                                                if (response.isSuccessful) {
+                                                                        val videos = response.body()?.items ?: emptyList()
+                                                                        songs.clear()
+                                                                        for(video in videos) {
+                                                                                val videoId = video.id.videoId ?: continue
+                                                                                val title = video.snippet.title
+                                                                                val thumbnail = video.snippet.thumbnails.medium.url
+                                                                                val artist = video.snippet.channelTitle
+
+                                                                                songs.add(Song(videoId, title, thumbnail, artist))
                                                                         }
-                                                                }
-
-                                                                override fun onFailure(call: Call<DeezerResponse>, t: Throwable) {
+                                                                        songAdapter.notifyDataSetChanged()
                                                                         showLoading(false)
-                                                                        binding.showError.text = "Deezer server not running"
-                                                                        Toast.makeText(requireContext(), "Server not running", Toast.LENGTH_LONG).show()
+                                                                } else {
+                                                                        showLoading(false)
+                                                                        binding.showError.text = "Error: ${response.message()}"
                                                                 }
-                                                        })
+                                                        }
+
+                                                        override fun onFailure(call: Call<YouTubeResponse>, t: Throwable) {
+                                                                showLoading(false)
+                                                                binding.showError.text = "Failure: ${t.message}"
+                                                        }
+                                                })
                                         } catch (e: Exception) {
                                                 showLoading(false)
                                                 binding.showError.text = "Gemini error: ${e.message}"
                                         }
                                 }
-
-//                                GeminiClient.api.generateContent(GeminiClient.API_KEY, request).enqueue(object : Callback<GeminiResponse> {
-//                                        override fun onResponse(call: Call<GeminiResponse>, response: Response<GeminiResponse>) {
-//                                                if (response.isSuccessful) {
-//                                                        val keyword = response.body()
-//                                                                ?.candidates?.firstOrNull()
-//                                                                ?.content?.parts?.firstOrNull()
-//                                                                ?.text?.lowercase()?.trim()
-//                                                        binding.showError.text = "I am inside gpt code"
-//                                                        keyword?.let {
-//                                                                binding.showError.text = "I have reached inside keyword $keyword"
-//                                                                RetrofitClient.instance.searchTracks(keyword)
-//                                                                        .enqueue(object : Callback<DeezerResponse> {
-//                                                                                override fun onResponse(
-//                                                                                        call: Call<DeezerResponse>,
-//                                                                                        response: Response<DeezerResponse>
-//                                                                                ) {
-//                                                                                        showLoading(false)
-//                                                                                        if(response.isSuccessful) {
-//                                                                                                val tracks = response.body()?.data
-//                                                                                                binding.showError.text = "I got the track"
-//                                                                                        } else {
-//                                                                                                showLoading(false)
-//                                                                                                binding.showError.text = "GPT error: ${response.code()}"
-//                                                                                        }
-//                                                                                }
-//
-//                                                                                override fun onFailure(call: Call<DeezerResponse>, t: Throwable) {
-//                                                                                        showLoading(false)
-//                                                                                        binding.showError.text = "Deezer server not running"
-//                                                                                        Toast.makeText(requireContext(), "Server not running", Toast.LENGTH_LONG).show()
-//                                                                                }
-//                                                                        })
-//                                                        }
-//                                                } else {
-//                                                        showLoading(false)
-//                                                        binding.showError.text = "Gemini error: ${response.code()}}"
-//                                                }
-//                                        }
-//
-//                                        override fun onFailure(call: Call<GeminiResponse>, t: Throwable) {
-//                                                showLoading(false)
-//                                                binding.showError.text = "gpt server not running"
-//                                                Toast.makeText(requireContext(), "Server not running", Toast.LENGTH_LONG).show()
-//                                        }
-//                                })
                         } else {
                                 Toast.makeText(requireContext(), "Empty field", Toast.LENGTH_LONG).show()
                         }
@@ -180,34 +116,6 @@ class TextFragment : Fragment(), SongAdapter.OnSongClickListener{
 
                 // Stop current playing song if any
                 stopCurrentSong()
-
-                // Start new song
-                try {
-                        // For streaming URLs, use setDataSource instead of MediaPlayer.create
-                        mediaPlayer = MediaPlayer().apply {
-                                setDataSource(song.audioUrl)
-                                prepareAsync() // Use async preparation for streaming
-
-                                setOnPreparedListener { mp ->
-                                        mp.start()
-                                        updatePlayingState(position)
-                                }
-
-                                setOnCompletionListener {
-                                        stopCurrentSong()
-                                }
-
-                                setOnErrorListener { _, what, extra ->
-                                        Toast.makeText(requireContext(), "Error playing song: $what, $extra", Toast.LENGTH_LONG).show()
-                                        stopCurrentSong()
-                                        true
-                                }
-                        }
-
-                } catch (e: Exception) {
-                        Toast.makeText(requireContext(), "Failed to play song: ${e.message}", Toast.LENGTH_LONG).show()
-                        e.printStackTrace()
-                }
         }
 
         private fun stopCurrentSong() {
@@ -241,12 +149,6 @@ class TextFragment : Fragment(), SongAdapter.OnSongClickListener{
         private fun updateEmptyState() {
                 emptyTextView.visibility = if (songs.isEmpty()) View.VISIBLE else View.GONE
                 recyclerView.visibility = if (songs.isEmpty()) View.GONE else View.VISIBLE
-        }
-
-        fun addSong(song: Song) {
-                songs.add(song)
-                songAdapter.notifyItemInserted(songs.size - 1)
-                updateEmptyState()
         }
 
         override fun onPause() {
