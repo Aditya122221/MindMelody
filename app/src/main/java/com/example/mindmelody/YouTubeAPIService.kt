@@ -11,6 +11,7 @@ interface YouTubeAPIService {
                 @Query("maxResults") maxResults: Int = 10,
                 @Query("q") query: String,
                 @Query("type") type: String = "video",
+                @Query("videoEmbeddable") videoEmbeddable: String = "true",
                 @Query("key") apiKey: String
         ): Call<YouTubeResponse>
 }

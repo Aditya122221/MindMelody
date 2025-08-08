@@ -33,14 +33,12 @@ class SongAdapter(private val songs: MutableList<Song>, private val listener: On
         class SongViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 private val titleTextView: TextView = itemView.findViewById(R.id.tvSongTitle)
                 private val artistTextView: TextView = itemView.findViewById(R.id.tvSongArtist)
-                private val durationTextView: TextView = itemView.findViewById(R.id.tvSongDuration)
                 private val playIcon: ImageView = itemView.findViewById(R.id.ivPlayIcon)
                 val thumbnail: ImageView = itemView.findViewById(R.id.thumbnail)
 
                 fun bind(song: Song, isPlaying: Boolean) {
                         titleTextView.text = song.title
                         artistTextView.text = song.artist
-                        durationTextView.text = formatDuration(song.duration)
 
                         if (isPlaying) {
                                 playIcon.setImageResource(R.drawable.ic_pause)

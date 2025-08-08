@@ -1,5 +1,6 @@
 package com.example.mindmelody
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -51,13 +52,17 @@ class TextFragment : Fragment(), SongAdapter.OnSongClickListener{
                         adapter = songAdapter
                 }
 
+                songs.add(Song("g8IMMoXEarg", "Congratulations and Celebration", "https://i.ytimg.com/vi/g8IMMoXEarg/mqdefault.jpg", "C hui"))
+                songAdapter.notifyDataSetChanged()
+
+
                 binding.btnGetSuggestion.setOnClickListener {
                         val sug = binding.etMoodInput.text.toString().trim()
 
                         if(sug.isNotEmpty()) {
                                 showLoading(true)
                                 var keyword = "party song"
-                                val userPrompt = "Extract one mood-related keyword (like party, chill, gym, etc.) from this sentence: \"$sug\". Just give the keyword only."
+                                val userPrompt = "You are music expert and you are tasked to find the song genre that i can send to youtube api to get the most relevant music for the given situation or surrounding and only give the keyword like chill, party, etc. \"${sug}\""
 
                                 lifecycleScope.launch {
                                         try {
@@ -66,7 +71,7 @@ class TextFragment : Fragment(), SongAdapter.OnSongClickListener{
                                                 val cleanKeyword = keyword.replace("\"", "").trim()
                                                 val call = RetrofitClient.youtubeService.searchVideos(
                                                         query = "$cleanKeyword songs",
-                                                        apiKey = "AIzaSyCEs6dbHcRmLtvafwVkx7jD9_90RoqYgPY"
+                                                        apiKey = "AIzaSyCEs6dbHcRmLtvafwVkx7jD9_90RoqYgPY",
                                                 )
 
                                                 call.enqueue(object : retrofit2.Callback<YouTubeResponse> {
@@ -112,9 +117,17 @@ class TextFragment : Fragment(), SongAdapter.OnSongClickListener{
         }
 
         override fun onSongClick(position: Int) {
-                val song = songs[position]
+                val videosId = ArrayList<String>()
+                for(song in songs) {
+                        videosId.add(song.id)
+                }
 
-                // Stop current playing song if any
+                currentPlayingPosition = position
+
+                val intent = Intent(context, VideoPlayer::class.java)
+                intent.putStringArrayListExtra("videosId", videosId)
+                intent.putExtra("songId", songs[position].id)
+                startActivity(intent)
                 stopCurrentSong()
         }
 

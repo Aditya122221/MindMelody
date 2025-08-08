@@ -14,13 +14,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MindMelody">
         <activity
+            android:name=".VideoPlayer"
+            android:exported="false" />
+        <activity
             android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <data
-                    android:scheme="mindmelody"
-                    android:host="callback" />
+                    android:host="callback"
+                    android:scheme="mindmelody" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
