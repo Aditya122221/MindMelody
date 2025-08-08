@@ -72,6 +72,7 @@ class TextFragment : Fragment(), SongAdapter.OnSongClickListener{
                                                 val call = RetrofitClient.youtubeService.searchVideos(
                                                         query = "$cleanKeyword songs",
                                                         apiKey = "AIzaSyCEs6dbHcRmLtvafwVkx7jD9_90RoqYgPY",
+                                                        videoEmbeddable = true
                                                 )
 
                                                 call.enqueue(object : retrofit2.Callback<YouTubeResponse> {

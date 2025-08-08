@@ -36,28 +36,28 @@ class TutorialPage : AppCompatActivity() {
                 OnboardingItem(
                         "Voice Mood Detection",
                         "Tap the mic and say how you feel.",
-                        R.drawable.ic_voice_mood,
+                        R.drawable.mic,
                         R.color.voice_gradient_start,
                         R.color.voice_gradient_end
                 ),
                 OnboardingItem(
                         "Text Mood Input",
                         "Type your mood in one word or sentence.",
-                        R.drawable.ic_text_mood,
+                        R.drawable.text,
                         R.color.text_gradient_start,
                         R.color.text_gradient_end
                 ),
                 OnboardingItem(
                         "Face Mood Detection",
                         "Let your face do the talking.",
-                        R.drawable.ic_face_mood,
+                        R.drawable.face,
                         R.color.face_gradient_start,
                         R.color.face_gradient_end
                 ),
                 OnboardingItem(
-                        "Spotify Integration",
+                        "Youtube Integration",
                         "Stream curated playlists based on your mood.",
-                        R.drawable.ic_spotify_mood,
+                        R.drawable.youtube,
                         R.color.spotify_gradient_start,
                         R.color.spotify_gradient_end
                 )
