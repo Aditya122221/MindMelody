@@ -50,9 +50,6 @@ class TextFragment : Fragment(), SongAdapter.OnSongClickListener{
                         adapter = songAdapter
                 }
 
-                songs.add(Song("g8IMMoXEarg", "Congratulations and Celebration", "https://i.ytimg.com/vi/g8IMMoXEarg/mqdefault.jpg", "C hui"))
-                songAdapter.notifyDataSetChanged()
-
 
                 binding.btnGetSuggestion.setOnClickListener {
                         val sug = binding.etMoodInput.text.toString().trim()

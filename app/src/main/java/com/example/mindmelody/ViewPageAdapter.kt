@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class ViewPageAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-        private val fragments = listOf(TextFragment(), SpeechFragment(), ImageFragment())
+        private val fragments : List<Fragment> = listOf(TextFragment(), SpeechFragment())
 
         override fun getItemCount(): Int {
                 return fragments.count()

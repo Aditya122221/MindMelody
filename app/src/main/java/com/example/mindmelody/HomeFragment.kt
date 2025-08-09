@@ -38,7 +38,6 @@ class HomeFragment : Fragment() {
                         tab.text = when (position) {
                                 0 -> "Text"
                                 1 -> "Speech"
-                                2 -> "Image"
                                 else -> ""
                         }
                 }.attach()
