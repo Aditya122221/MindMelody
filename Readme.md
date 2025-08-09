@@ -13,10 +13,10 @@
 # ✨ Features
 
 
-* 🎤 Speech Recognition — Speak about your mood or surroundings, and the app will detect it.
-* 🎶 Mood-Based Song Suggestions — AI-powered song recommendations using YouTube.
-* 📺 Embedded YouTube Player — Play songs without leaving the app.
-* 🔀 Auto Playlist — Play related songs after your selection ends.
+* <strong>🎤 Speech Recognition</strong> — Speak about your mood or surroundings, and the app will detect it.
+* <strong>🎶 Mood-Based Song Suggestions</strong> — AI-powered song recommendations using YouTube.
+* <strong>📺 Embedded YouTube Player</strong> — Play songs without leaving the app.
+* <strong>🔀 Auto Playlist</strong> — Play related songs after your selection ends.
 
 
 # 🛠 Tech Stack
