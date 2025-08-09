@@ -33,7 +33,7 @@ class SpeechFragment : Fragment(), SongAdapter.OnSongClickListener {
         private var mediaPlayer: MediaPlayer? = null
         private var currentPlayingPosition = -1
         private val songs = mutableListOf<Song>()
-        val model = GenerativeModel(modelName = "gemini-2.5-pro", apiKey = "AIzaSyCEs6dbHcRmLtvafwVkx7jD9_90RoqYgPY")
+        val model = GenerativeModel(modelName = BuildConfig.GEMINI_MODEL_NAME, apiKey = BuildConfig.API_KEY)
 
         override fun onCreateView(
                 inflater: LayoutInflater, container: ViewGroup?,
@@ -131,7 +131,7 @@ class SpeechFragment : Fragment(), SongAdapter.OnSongClickListener {
                                 val cleanKeyword = keyword.replace("\"", "").trim()
                                 val call = RetrofitClient.youtubeService.searchVideos(
                                         query = "$cleanKeyword songs",
-                                        apiKey = "AIzaSyCEs6dbHcRmLtvafwVkx7jD9_90RoqYgPY",
+                                        apiKey = BuildConfig.API_KEY,
                                         videoEmbeddable = true
                                 )
 
