@@ -17,8 +17,6 @@ import com.example.mindmelody.databinding.FragmentTextBinding
 import com.google.ai.client.generativeai.GenerativeModel
 import kotlinx.coroutines.launch
 import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class TextFragment : Fragment(), SongAdapter.OnSongClickListener{
 
@@ -148,22 +146,7 @@ class TextFragment : Fragment(), SongAdapter.OnSongClickListener{
                 }
         }
 
-        private fun updatePlayingState(position: Int) {
-                val previousPosition = currentPlayingPosition
-                currentPlayingPosition = position
-
-                // Notify adapter to update the UI
-                if (previousPosition != -1) {
-                        songAdapter.notifyItemChanged(previousPosition)
-                }
-                songAdapter.notifyItemChanged(currentPlayingPosition)
-        }
-
         override fun getCurrentPlayingPosition(): Int = currentPlayingPosition
-        private fun updateEmptyState() {
-                emptyTextView.visibility = if (songs.isEmpty()) View.VISIBLE else View.GONE
-                recyclerView.visibility = if (songs.isEmpty()) View.GONE else View.VISIBLE
-        }
 
         override fun onPause() {
                 super.onPause()
