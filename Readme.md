@@ -2,11 +2,11 @@
 
 
 * Developed an Android application that fetches and plays songs based on the user's mood.
-* Integrated Google Gemini API to analyze user-provided text and detect the mood.
-* Used YouTube Dat****a API to fetch mood-relevant songs.
+* Integrated <strong>Google Gemini API</strong> to analyze user-provided text and detect the mood.
+* Used <strong>YouTube Data API</strong> to fetch mood-relevant songs.
 * Implemented in-app music playback for seamless user experience.
-* Built a modern, responsive UI using Material Design principles.
-* Utilized Retrofit and Coroutines for efficient network calls and asynchronous operations.
+* Built a modern, responsive UI using <strong>Material Design</strong> principles.
+* Utilized <strong>Retrofit and Coroutines</strong> for efficient network calls and asynchronous operations.
 * Managed UI components effectively with ViewBinding.
 
 
