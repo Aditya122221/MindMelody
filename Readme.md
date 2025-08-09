@@ -33,54 +33,55 @@
 # 📂 Directory Structure
 
 
- ├── MindMelody/
- ├── app/src/main/java/com/example/mindmelody/
- │    ├── ContactFragment.kt
- │    ├── DatabaseConnection.kt
- │    ├── GeminiClient.kt
- │    ├── GeminiRequest.kt
- │    ├── HomeFragment.kt
- │    ├── ImageFragment.kt
- │    ├── Login.kt
- │    ├── MainActivity.kt
- │    ├── OnboardingFragment.kt
- │    ├── OnboardingItem.kt
- │    ├── ProfileFragment.kt
- │    ├── RetrofitClient.kt
- │    ├── Signup.kt
- │    ├── Song.kt
- │    ├── SongAdapter.kt
- │    ├── SpeechFragment.kt
- │    ├── SplashScreen.kt
- │    ├── TextFragment.kt
- │    ├── TutorialPage.kt
- │    ├── VideoPlayer.kt
- │    ├── ViewPagerAdapter.kt
- │    ├── YoutubeAPIService.kt
- │    ├── YoutubeResponse.kt
- ├── res/
- │    ├── anim/
- │    ├── drawable/
- │    ├── layout/
- │              ├── activity_login.xml
- │              ├── activity_main.xml
- │              ├── activity_signup.xml
- │              ├── activity_splash_screen.xml
- │              ├── activity_tutorial_page.xml
- │              ├── activity_video_player.xml
- │              ├── fragment_contact.xml
- │              ├── fragment_home.xml
- │              ├── fragment_image.xml
- │              ├── fragment_onboarding.xml
- │              ├── fragment_profile.xml
- │              ├── fragment_profile.xml
- │              ├── fragment_speech.xml
- │              ├── fragment_text.xml
- │              ├── item_song.xml
- │    ├── minmap/
- │    ├── values/
- │    ├── xml/
- ├── README.md
+<pre>
+├── MindMelody/
+├── app/src/main/java/com/example/mindmelody/
+│    ├── ContactFragment.kt
+│    ├── DatabaseConnection.kt
+│    ├── GeminiClient.kt
+│    ├── GeminiRequest.kt
+│    ├── HomeFragment.kt
+│    ├── ImageFragment.kt
+│    ├── Login.kt
+│    ├── MainActivity.kt
+│    ├── OnboardingFragment.kt
+│    ├── OnboardingItem.kt
+│    ├── ProfileFragment.kt
+│    ├── RetrofitClient.kt
+│    ├── Signup.kt
+│    ├── Song.kt
+│    ├── SongAdapter.kt
+│    ├── SpeechFragment.kt
+│    ├── SplashScreen.kt
+│    ├── TextFragment.kt
+│    ├── TutorialPage.kt
+│    ├── VideoPlayer.kt
+│    ├── ViewPagerAdapter.kt
+│    ├── YoutubeAPIService.kt
+│    ├── YoutubeResponse.kt
+├── res/
+│    ├── anim/
+│    ├── drawable/
+│    ├── layout/
+│              ├── activity_login.xml
+│              ├── activity_main.xml
+│              ├── activity_signup.xml
+│              ├── activity_splash_screen.xml
+│              ├── activity_tutorial_page.xml
+│              ├── activity_video_player.xml
+│              ├── fragment_contact.xml
+│              ├── fragment_home.xml
+│              ├── fragment_image.xml
+│              ├── fragment_onboarding.xml
+│              ├── fragment_profile.xml
+│              ├── fragment_speech.xml
+│              ├── fragment_text.xml
+│              ├── item_song.xml
+│    ├── minmap/
+│    ├── values/
+│    ├── xml/
+├── README.md
+</pre>
 
 
 # 🚀 How It Works
