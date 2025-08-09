@@ -33,7 +33,7 @@
 # 📂 Directory Structure
 
 
-MindMelody/
+ ├── MindMelody/
  ├── app/src/main/java/com/example/mindmelody/
  │    ├── ContactFragment.kt
  │    ├── DatabaseConnection.kt
