@@ -30,7 +30,7 @@
 <li><strong>API: </strong> Youtube API, Gemni API</li>
 </ul>
 
-# Directory Structure
+# 📂 Directory Structure
 
 
 MindMelody/
@@ -83,10 +83,34 @@ MindMelody/
  ├── README.md
 
 
-# How it works
+# 🚀 How It Works
 
 
 <ol>
 <li><strong>Speech or Text Input</strong> — User speaks or types their mood.</li>
 <li><strong>Mood Processing</strong> — Mood is matched with relevant genres.</li>
+<li><strong>Song Fetching</strong> — API requests to YouTube & Deezer fetch matching songs.</li>
+<li><strong>Playback</strong> — Songs are played via YouTube player with auto-next feature.</li>
+</ol>
+
+# ⚙️ Installation
+
+
+<ol>
+<li>Clone this repository:
+
+```
+git clone https://github.com/Aditya122221/MindMelody.git
+```
+</li>
+
+<li>Open the project in <strong>Android Studio</strong>.</li>
+<li>Add your API keys in local.properties:
+
+```
+API_KEY=your_api_key_here
+GEMINI_MODEL_NAME=your_gemini_model_name
+```
+</li>
+<li>Build and run on an emulator or device.</li>
 </ol>
