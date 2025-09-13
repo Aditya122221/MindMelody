@@ -2,7 +2,13 @@
 
 > **An intelligent Android music companion that understands your mood and curates the perfect soundtrack for your emotions.**
 
-MindMelody is a cutting-edge Android application that revolutionizes music discovery by leveraging AI to understand your emotional state and recommend songs that perfectly match your mood. Whether you're feeling energetic, contemplative, or anywhere in between, MindMelody creates a personalized musical experience just for you.
+* Developed an Android application that fetches and plays songs based on the user's mood.
+* Integrated Google Gemini API to analyze user-provided text and detect the mood.
+* Used YouTube Data API to fetch mood-relevant songs.
+* Implemented in-app music playback for seamless user experience.
+* Built a modern, responsive UI using Material Design principles.
+* Utilized Retrofit and Coroutines for efficient network calls and asynchronous operations.
+* Managed UI components effectively with ViewBinding.
 
 ## 🌟 Key Highlights
 
