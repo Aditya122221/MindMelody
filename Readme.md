@@ -189,7 +189,7 @@ Create or edit the `local.properties` file in the root directory:
 
 ```properties
 # API Configuration
-API_KEY=your_youtube_api_key_here
+API_KEY=your_gemini_api_key_here
 GEMINI_MODEL_NAME=your_gemini_model_name_here
 
 # Optional: Firebase configuration
@@ -262,13 +262,29 @@ For contributors and developers:
 
 ## 📸 Screenshots
 
-> **Note**: Screenshots will be added here once the app is built and running. These would include:
-> - Main dashboard with mood input options
-> - Speech recognition interface
-> - Text input screen
-> - Music discovery results
-> - YouTube player interface
-> - User profile and settings
+### Speech Recognition
+![Speech Recognition](screenshots/speech_recognition.png)
+*Voice input interface for mood detection*
+
+### Text Input
+![Text Input](screenshots/text_input.png)
+*Text-based mood input screen*
+
+### Music Discovery
+![Music Discovery](screenshots/music_discovery.png)
+*AI-curated music recommendations based on detected mood*
+
+### User Profile
+![User Profile](screenshots/user_profile.png)
+*User profile and settings interface*
+
+---
+
+> **📝 Note**: To add screenshots to your project:
+> 1. Create a `screenshots/` folder in your project root
+> 2. Take screenshots of your app running on a device/emulator
+> 3. Save them with the names shown above
+> 4. The images will automatically display in this README
 
 ## 🤝 Contributing
 
@@ -325,7 +341,6 @@ When reporting issues, please include:
 
 - **Issues**: [GitHub Issues](https://github.com/Aditya122221/MindMelody/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/Aditya122221/MindMelody/discussions)
-- **Email**: [Your contact email]
 
 ---
 
